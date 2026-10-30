@@ -4,13 +4,13 @@ Een zelfstandige PHP 8.1+-client voor de TradeTracker Web Services REST API. De 
 
 ## Installatie
 
-Plaats dit pakket in uw project en installeer de autoloader:
+Plaats dit pakket in jouw project en installeer de autoloader:
 
 ```bash
 composer install
 ```
 
-De SDK heeft alleen PHP met de extensies `curl` en `json` nodig. Voeg bij gebruik vanuit een ander Composer-project de map als repository toe of publiceer het pakket naar uw eigen Composer-registry.
+De SDK heeft alleen PHP met de extensies `curl` en `json` nodig. Voeg bij gebruik vanuit een ander Composer-project de map als repository toe of publiceer het pakket naar jouw eigen Composer-registry.
 
 ## Authenticatie met TradeTracker ID en API-sleutel
 
@@ -30,7 +30,7 @@ $auth = $client->authenticateWithTradeTrackerId(
 printf("JWT ontvangen (%d tekens)\n", strlen($auth->jwt));
 ```
 
-De API ondersteunt daarnaast `authenticateWithUsernamePassword()` voor accounts die nog niet aan een TradeTracker ID gekoppeld zijn. Een JWT is volgens de API-documentatie 24 uur geldig. Bij een HTTP 401 meldt u zich opnieuw aan.
+De API ondersteunt daarnaast `authenticateWithUsernamePassword()` voor accounts die nog niet aan een TradeTracker ID gekoppeld zijn. Een JWT is volgens de API-documentatie 24 uur geldig. Bij een HTTP 401 meldt je je opnieuw aan.
 
 ## Conversie- en kliktransacties ophalen
 
@@ -58,11 +58,11 @@ foreach ($response->data() as $transaction) {
 }
 ```
 
-Voor kliktransacties gebruikt u `getClickTransactions($affiliateSiteID, $options)`. De geretourneerde `ApiResponse` bevat `data()`, `success()` en `raw()`; de inhoud van `data()` is een associatieve array met exact de velden uit de OpenAPI-specificatie.
+Voor kliktransacties gebruik je `getClickTransactions($affiliateSiteID, $options)`. De geretourneerde `ApiResponse` bevat `data()`, `success()` en `raw()`; de inhoud van `data()` is een associatieve array met exact de velden uit de OpenAPI-specificatie.
 
 ## Uitvoerbare voorbeelden
 
-Gebruik omgevingsvariabelen om geheimen buiten uw broncode te houden:
+Gebruik omgevingsvariabelen om geheimen buiten de broncode te houden:
 
 ```bash
 export TRADETRACKER_ID='jane@example.com'
@@ -85,7 +85,7 @@ php examples/get_transactions.php
 | Andere HTTP-fout | `ApiException` |
 | Onverwachte of ongeldige JSON-response | `UnexpectedResponseException` |
 
-`ApiException` bevat `statusCode`, `errors`, `errorCode`, `payload` en `headers`. Hierdoor kunt u API-fouten veilig loggen of gericht afhandelen.
+`ApiException` bevat `statusCode`, `errors`, `errorCode`, `payload` en `headers`. Hierdoor kun je API-fouten veilig loggen of gericht afhandelen.
 
 ## Volledige operationele dekking
 
@@ -102,7 +102,7 @@ php examples/get_transactions.php
 
 ## Transport en veiligheid
 
-De standaardserver is `https://ws.tradetracker.com` en TLS-certificaten worden door cURL geverifieerd. Pas alleen `Configuration` aan wanneer u een expliciet andere API-host of afwijkende time-outs nodig heeft. Zet `verifyTls` niet uit in productie.
+De standaardserver is `https://ws.tradetracker.com` en TLS-certificaten worden door cURL geverifieerd. Pas alleen `Configuration` aan wanneer je een expliciet andere API-host of afwijkende time-outs nodig hebt. Zet `verifyTls` niet uit in productie.
 
 De complete bronspecificatie staat in [openapi/openapi.yaml](openapi/openapi.yaml). Deze SDK gebruikt de concrete paden, JSON-requestbodies, JWT-header en response-envelop die in de voorbeeldscripts zijn bevestigd.
 
