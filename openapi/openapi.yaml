@@ -1,0 +1,3811 @@
+openapi: 3.1.1
+info:
+  title: TradeTracker Web Services REST API
+  version: 1.0.0
+  description: OpenAPI 3.1 specification generated from the supplied method definitions, type definitions and HTTP example scripts. All operations use JSON request bodies and return a JSON envelope containing `data` and `success`.
+servers:
+- url: https://ws.tradetracker.com
+  description: TradeTracker Web Services REST API server from the supplied scripts.
+tags:
+- name: Authentication
+  description: JWT authentication.
+- name: Affiliate sites
+  description: Affiliate-site data and taxonomy.
+- name: Campaigns
+  description: Campaign data, categories, commissions and news.
+- name: Transactions
+  description: Click, conversion, attribution and touchpoint data.
+- name: Product feeds
+  description: Product-feed metadata, categories and products.
+- name: Materials
+  description: Promotional materials and banner dimensions.
+- name: Payments
+  description: Payment notices.
+- name: Reports
+  description: Affiliate-site, campaign and reference performance reports.
+security:
+- bearerAuth: []
+paths:
+  /rest/affiliate/authenticate:
+    post:
+      tags:
+      - Authentication
+      operationId: authenticate
+      summary: Signs in and returns a JWT. Send it with every other call in the header Authorization, as Bearer followed by the JWT. A JWT lasts 24 hours; authenticate again when a call answers 401.
+      description: 'Source method signature: `void authenticate ( string tradetracker_id, string api_key, string username, string password, boolean sandbox, Locale locale, boolean demo )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticateRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  tradetracker_id: jane@example.com
+                  api_key: 3f9a6c2e8b1d4f70a5e2c9b8d7f6e5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticateResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                      jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjp7InVzZXJJRCI6MTIzNDV9fQ.c2lnbmF0dXJl
+                    success: true
+        '400':
+          $ref: '#/components/responses/AuthenticationFailed'
+      x-source-method-signature: void authenticate ( string tradetracker_id, string api_key, string username, string password, boolean sandbox, Locale locale, boolean demo )
+      security: []
+  /rest/affiliate/getAffiliateSiteCategories:
+    post:
+      tags:
+      - Affiliate sites
+      operationId: getAffiliateSiteCategories
+      summary: Geeft een lijst terug van affiliatesitecategorieën die gebruikt worden.
+      description: 'Source method signature: `AffiliateSiteCategories getAffiliateSiteCategories ( )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAffiliateSiteCategoriesRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value: {}
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAffiliateSiteCategoriesResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 55122
+                      name: Fashion
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: AffiliateSiteCategories getAffiliateSiteCategories ( )
+  /rest/affiliate/getAffiliateSites:
+    post:
+      tags:
+      - Affiliate sites
+      operationId: getAffiliateSites
+      summary: Geeft een lijst terug van affiliatesites behorende bij uw account.
+      description: 'Source method signature: `AffiliateSites getAffiliateSites ( AffiliateSiteFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAffiliateSitesRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  options:
+                    limit: 10
+                    offset: 0
+                    sort: ID
+                    sortDirection: descending
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAffiliateSitesResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 83809
+                      name: Example Blog
+                      URL: https://www.example.com/
+                      info:
+                        type:
+                          ID: 51691
+                          name: Blog
+                        category:
+                          ID: 55122
+                          name: Fashion
+                        description: Example description.
+                        creationDate: '2026-10-01'
+                        status: accepted
+                        hidden: true
+                      logoURL: https://static.example.com/banner-300x250.png
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: AffiliateSites getAffiliateSites ( AffiliateSiteFilter $options )
+  /rest/affiliate/getAffiliateSiteTypes:
+    post:
+      tags:
+      - Affiliate sites
+      operationId: getAffiliateSiteTypes
+      summary: Geeft een lijst terug van affiliatesitetypes die gebruikt worden.
+      description: 'Source method signature: `AffiliateSiteTypes getAffiliateSiteTypes ( )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAffiliateSiteTypesRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value: {}
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAffiliateSiteTypesResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 51691
+                      name: Blog
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: AffiliateSiteTypes getAffiliateSiteTypes ( )
+  /rest/affiliate/getAttributions:
+    post:
+      tags:
+      - Transactions
+      operationId: getAttributions
+      summary: Get attribution data for a conversion transaction. This summary was added from the method name and supplied response example because the method source has no prose description.
+      description: 'Source method signature: `Attributions getAttributions ( nonNegativeInteger $conversionTransactionID )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAttributionsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  conversionTransactionID: 71655
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAttributionsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                      affiliateSites:
+                      - affiliateSiteID: 83809
+                        commission: 12.5
+                        relativeOrderAmount: 12.5
+                        position: example
+                        IP: 203.0.113.10
+                        transactionType: sale
+                        transactionStatus: accepted
+                        reference: order-10023
+                        registrationDate: '2026-10-01T10:15:00+02:00'
+                        paidOut: true
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: Attributions getAttributions ( nonNegativeInteger $conversionTransactionID )
+  /rest/affiliate/getCampaignCategories:
+    post:
+      tags:
+      - Campaigns
+      operationId: getCampaignCategories
+      summary: Geeft een lijst terug van campagnecategorieën die gebruikt worden.
+      description: 'Source method signature: `CampaignCategories getCampaignCategories ( )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCampaignCategoriesRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value: {}
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCampaignCategoriesResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 52736
+                      name: Fashion
+                      categories:
+                      - ID: 52736
+                        name: Fashion
+                        categories: []
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: CampaignCategories getCampaignCategories ( )
+  /rest/affiliate/getCampaignCommissionExtended:
+    post:
+      tags:
+      - Campaigns
+      operationId: getCampaignCommissionExtended
+      summary: Geeft uitgebreide vergoedingsinformatie terug voor de gegeven campagne. De vergoedingsinformatie is uitgesplitst naar de diverse beschikbare productgroepen.
+      description: 'Source method signature: `CampaignCommissionExtended getCampaignCommissionExtended ( nonNegativeInteger $affiliateSiteID, nonNegativeInteger $campaignID )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCampaignCommissionExtendedRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  campaignID: 47920
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCampaignCommissionExtendedResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                      impressionCommission: 12.5
+                      clickCommission: 0.25
+                      fixedCommission: 12.5
+                      products:
+                      - campaignProduct:
+                          ID: 30117
+                          name: Example Shop NL
+                        leadCommission: 12.5
+                        saleCommissionFixed: 12.5
+                        saleCommissionVariable: 7.5
+                        iLeadCommission: 12.5
+                        iSaleCommissionFixed: 12.5
+                        iSaleCommissionVariable: 7.5
+                        guaranteedCommissionLead: 12.5
+                        guaranteedCommissionSalesVariable: 7.5
+                        guaranteedCommissionSalesFixed: 12.5
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: CampaignCommissionExtended getCampaignCommissionExtended ( nonNegativeInteger $affiliateSiteID, nonNegativeInteger $campaignID )
+  /rest/affiliate/getCampaignNewsItems:
+    post:
+      tags:
+      - Campaigns
+      operationId: getCampaignNewsItems
+      summary: Geeft een lijst terug van campagnenieuwsitems.
+      description: 'Source method signature: `CampaignNewsItems getCampaignNewsItems ( CampaignNewsItemFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCampaignNewsItemsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  options:
+                    limit: 10
+                    offset: 0
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCampaignNewsItemsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 57952
+                      campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      campaignNewsType: campaign_update_general
+                      title: Winter sale
+                      content: <a href="https://tc.tradetracker.net/?c=12345&m=0&a=67890">Example Shop</a>
+                      publishDate: '2026-10-01'
+                      expirationDate: '2026-12-31'
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: CampaignNewsItems getCampaignNewsItems ( CampaignNewsItemFilter $options )
+  /rest/affiliate/getCampaigns:
+    post:
+      tags:
+      - Campaigns
+      operationId: getCampaigns
+      summary: Geeft een lijst terug van campagnes beschikbaar voor de gegeven affiliatesite.
+      description: 'Source method signature: `Campaigns getCampaigns ( nonNegativeInteger $affiliateSiteID, CampaignFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCampaignsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  options:
+                    limit: 10
+                    offset: 0
+                    assignmentStatus: accepted
+                    sort: ID
+                    sortDirection: descending
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCampaignsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 47920
+                      name: Example Shop NL
+                      URL: https://www.example.com/
+                      info:
+                        category:
+                          ID: 52736
+                          name: Fashion
+                          categories: []
+                        subCategories:
+                        - ID: 51027
+                          name: Fashion
+                        campaignDescription: Example description.
+                        shopDescription: Example description.
+                        targetGroup: Example description.
+                        characteristics: Example description.
+                        imageURL: https://static.example.com/banner-300x250.png
+                        trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                        commission:
+                          impressionCommission: 12.5
+                          clickCommission: 0.25
+                          fixedCommission: 12.5
+                          leadCommission: 12.5
+                          saleCommissionFixed: 12.5
+                          saleCommissionVariable: 7.5
+                          iLeadCommission: 12.5
+                          iSaleCommissionFixed: 12.5
+                          iSaleCommissionVariable: 7.5
+                        assignmentStatus: accepted
+                        startDate: '2026-10-01'
+                        stopDate: '2026-12-31'
+                        timeZone: Europe/Amsterdam
+                        clickToConversion: P30D
+                        policySearchEngineMarketingStatus: allowed
+                        policyEmailMarketingStatus: allowed
+                        policyCashbackStatus: allowed
+                        policyDiscountCodeStatus: allowed
+                        deeplinkingSupported: true
+                        referencesSupported: true
+                        leadMaximumAssessmentInterval: P30D
+                        leadAverageAssessmentInterval: P30D
+                        saleMaximumAssessmentInterval: P30D
+                        saleAverageAssessmentInterval: P30D
+                        attributionModelLead: classic
+                        attributionModelSales: classic
+                      logoURL: https://static.example.com/banner-300x250.png
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: Campaigns getCampaigns ( nonNegativeInteger $affiliateSiteID, CampaignFilter $options )
+  /rest/affiliate/getClickTransactions:
+    post:
+      tags:
+      - Transactions
+      operationId: getClickTransactions
+      summary: Geeft een lijst terug van kliktransacties behorende bij uw account.
+      description: 'Source method signature: `ClickTransactions getClickTransactions ( nonNegativeInteger $affiliateSiteID, ClickTransactionFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetClickTransactionsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  options:
+                    limit: 10
+                    offset: 0
+                    registrationDateFrom: '2026-10-01T00:00:00+02:00'
+                    registrationDateTo: '2026-10-31T23:59:59+01:00'
+                    sort: ID
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClickTransactionsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 83165
+                      campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      reference: order-10023
+                      transactionType: sale
+                      transactionStatus: accepted
+                      currency: EUR
+                      commission: 12.5
+                      registrationDate: '2026-10-01T10:15:00+02:00'
+                      refererURL: https://www.example.com/
+                      paidOut: true
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: ClickTransactions getClickTransactions ( nonNegativeInteger $affiliateSiteID, ClickTransactionFilter $options )
+  /rest/affiliate/getConversionTransactions:
+    post:
+      tags:
+      - Transactions
+      operationId: getConversionTransactions
+      summary: Geeft een lijst terug van lead en sales transacties behorende bij uw account.
+      description: 'Source method signature: `ConversionTransactions getConversionTransactions ( nonNegativeInteger $affiliateSiteID, ConversionTransactionFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetConversionTransactionsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  options:
+                    limit: 10
+                    offset: 0
+                    registrationDateFrom: '2026-10-01T00:00:00+02:00'
+                    registrationDateTo: '2026-10-31T23:59:59+01:00'
+                    transactionStatus: accepted
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConversionTransactionsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 71655
+                      campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      affiliateSite:
+                        ID: 83809
+                        name: Example Blog
+                        URL: https://www.example.com/
+                        info:
+                          type:
+                            ID: 51691
+                            name: Blog
+                          category:
+                            ID: 55122
+                            name: Fashion
+                          description: Example description.
+                          creationDate: '2026-10-01'
+                          status: accepted
+                          hidden: true
+                        logoURL: https://static.example.com/banner-300x250.png
+                      campaignProduct:
+                        ID: 30117
+                        name: Example Shop NL
+                      reference: order-10023
+                      transactionType: sale
+                      transactionStatus: accepted
+                      numTouchPointsTotal: 13
+                      numTouchPointsAttributed: 11
+                      attributableCommission: 12.5
+                      description: Example description.
+                      currency: EUR
+                      commission: 12.5
+                      orderAmount: 12.5
+                      IP: 203.0.113.10
+                      registrationDate: '2026-10-01T10:15:00+02:00'
+                      assessmentDate: '2026-10-01T10:15:00+02:00'
+                      clickToConversion: P30D
+                      originatingClickDate: '2026-10-01T10:15:00+02:00'
+                      rejectionReason: returned_goods
+                      paidOut: true
+                      affiliateSitesPaidOut:
+                        affiliateSites:
+                        - affiliateSiteID: 83809
+                          paidOut: true
+                      countryCode: NL
+                      attributionModel: classic
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: ConversionTransactions getConversionTransactions ( nonNegativeInteger $affiliateSiteID, ConversionTransactionFilter $options )
+  /rest/affiliate/getFeedProductCategories:
+    post:
+      tags:
+      - Product feeds
+      operationId: getFeedProductCategories
+      summary: Geeft een lijst terug van productcategorieën gebruikt in de aangegeven productfeed.
+      description: 'Source method signature: `FeedCategories getFeedProductCategories ( nonNegativeInteger $affiliateSiteID, nonNegativeInteger $feedID )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetFeedProductCategoriesRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  feedID: 2214
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFeedProductCategoriesResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - name: Fashion
+                      productCount: 51
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: FeedCategories getFeedProductCategories ( nonNegativeInteger $affiliateSiteID, nonNegativeInteger $feedID )
+  /rest/affiliate/getFeedProducts:
+    post:
+      tags:
+      - Product feeds
+      operationId: getFeedProducts
+      summary: Geeft een lijst terug van producten uit alle beschikbare productfeeds.
+      description: 'Source method signature: `FeedProducts getFeedProducts ( nonNegativeInteger $affiliateSiteID, FeedProductFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetFeedProductsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  options:
+                    limit: 10
+                    offset: 0
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFeedProductsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - identifier: example
+                      name: Example sneaker
+                      productCategoryName: Fashion
+                      description: Example description.
+                      price: 12.5
+                      productURL: https://www.example.com/
+                      imageURL: https://static.example.com/banner-300x250.png
+                      additional:
+                      - name: Example sneaker
+                        value: example
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: FeedProducts getFeedProducts ( nonNegativeInteger $affiliateSiteID, FeedProductFilter $options )
+  /rest/affiliate/getFeeds:
+    post:
+      tags:
+      - Product feeds
+      operationId: getFeeds
+      summary: Geeft een lijst van productfeeds terug behorende bij uw account.
+      description: 'Source method signature: `Feeds getFeeds ( nonNegativeInteger $affiliateSiteID, FeedFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetFeedsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  options:
+                    assignmentStatus: accepted
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFeedsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 2214
+                      campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      name: Example
+                      URL: https://www.example.com/
+                      updateDate: '2026-10-01T10:15:00+02:00'
+                      updateInterval: P30D
+                      productCount: 169
+                      assignmentStatus: accepted
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: Feeds getFeeds ( nonNegativeInteger $affiliateSiteID, FeedFilter $options )
+  /rest/affiliate/getMaterialBannerDimensions:
+    post:
+      tags:
+      - Materials
+      operationId: getMaterialBannerDimensions
+      summary: Geeft een lijst terug van bannerdimensies die gebruikt worden bij het beschikbare bannermateriaal.
+      description: 'Source method signature: `MaterialBannerDimensions getMaterialBannerDimensions ( )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMaterialBannerDimensionsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value: {}
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMaterialBannerDimensionsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 96729
+                      width: 300
+                      height: 250
+                      isCommon: true
+                      isMobile: true
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: MaterialBannerDimensions getMaterialBannerDimensions ( )
+  /rest/affiliate/getMaterialBannerFlashItems:
+    post:
+      tags:
+      - Materials
+      operationId: getMaterialBannerFlashItems
+      summary: Geeft een lijst terug van promotiemateriaal dat geassocieerd is met de beschikbare campagnes.
+      description: 'Source method signature: `MaterialItems getMaterialBannerFlashItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMaterialBannerFlashItemsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  materialOutputType: html
+                  options:
+                    limit: 10
+                    offset: 0
+                    sort: ID
+                    sortDirection: descending
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMaterialBannerFlashItemsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 28142
+                      campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      name: Example
+                      creationDate: '2026-10-01T10:15:00+02:00'
+                      modificationDate: '2026-10-01T10:15:00+02:00'
+                      materialBannerDimension:
+                        ID: 96729
+                        width: 300
+                        height: 250
+                        isCommon: true
+                        isMobile: true
+                      referenceSupported: true
+                      description: Example description.
+                      conditions: example
+                      validFromDate: '2026-10-01'
+                      validToDate: '2026-12-31'
+                      discountFixed: 1.5
+                      discountVariable: 7.5
+                      voucherCode: WINTER10
+                      code: WINTER10
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: MaterialItems getMaterialBannerFlashItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )
+  /rest/affiliate/getMaterialBannerImageItems:
+    post:
+      tags:
+      - Materials
+      operationId: getMaterialBannerImageItems
+      summary: Geeft een lijst terug van promotiemateriaal dat geassocieerd is met de beschikbare campagnes.
+      description: 'Source method signature: `MaterialItems getMaterialBannerImageItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMaterialBannerImageItemsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  materialOutputType: html
+                  options:
+                    limit: 10
+                    offset: 0
+                    sort: ID
+                    sortDirection: descending
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMaterialBannerImageItemsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 28142
+                      campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      name: Example
+                      creationDate: '2026-10-01T10:15:00+02:00'
+                      modificationDate: '2026-10-01T10:15:00+02:00'
+                      materialBannerDimension:
+                        ID: 96729
+                        width: 300
+                        height: 250
+                        isCommon: true
+                        isMobile: true
+                      referenceSupported: true
+                      description: Example description.
+                      conditions: example
+                      validFromDate: '2026-10-01'
+                      validToDate: '2026-12-31'
+                      discountFixed: 1.5
+                      discountVariable: 7.5
+                      voucherCode: WINTER10
+                      code: WINTER10
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: MaterialItems getMaterialBannerImageItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )
+  /rest/affiliate/getMaterialHTMLItems:
+    post:
+      tags:
+      - Materials
+      operationId: getMaterialHTMLItems
+      summary: Geeft een lijst terug van promotiemateriaal dat geassocieerd is met de beschikbare campagnes.
+      description: 'Source method signature: `MaterialItems getMaterialHTMLItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMaterialHTMLItemsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  materialOutputType: html
+                  options:
+                    limit: 10
+                    offset: 0
+                    sort: ID
+                    sortDirection: descending
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMaterialHTMLItemsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 28142
+                      campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      name: Example
+                      creationDate: '2026-10-01T10:15:00+02:00'
+                      modificationDate: '2026-10-01T10:15:00+02:00'
+                      materialBannerDimension:
+                        ID: 96729
+                        width: 300
+                        height: 250
+                        isCommon: true
+                        isMobile: true
+                      referenceSupported: true
+                      description: Example description.
+                      conditions: example
+                      validFromDate: '2026-10-01'
+                      validToDate: '2026-12-31'
+                      discountFixed: 1.5
+                      discountVariable: 7.5
+                      voucherCode: WINTER10
+                      code: WINTER10
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: MaterialItems getMaterialHTMLItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )
+  /rest/affiliate/getMaterialIncentiveOfferItems:
+    post:
+      tags:
+      - Materials
+      operationId: getMaterialIncentiveOfferItems
+      summary: Geeft een lijst terug van promotiemateriaal dat geassocieerd is met de beschikbare campagnes.
+      description: 'Source method signature: `MaterialItems getMaterialIncentiveOfferItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMaterialIncentiveOfferItemsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  materialOutputType: html
+                  options:
+                    limit: 10
+                    offset: 0
+                    sort: ID
+                    sortDirection: descending
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMaterialIncentiveOfferItemsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 28142
+                      campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      name: Example
+                      creationDate: '2026-10-01T10:15:00+02:00'
+                      modificationDate: '2026-10-01T10:15:00+02:00'
+                      materialBannerDimension:
+                        ID: 96729
+                        width: 300
+                        height: 250
+                        isCommon: true
+                        isMobile: true
+                      referenceSupported: true
+                      description: Example description.
+                      conditions: example
+                      validFromDate: '2026-10-01'
+                      validToDate: '2026-12-31'
+                      discountFixed: 1.5
+                      discountVariable: 7.5
+                      voucherCode: WINTER10
+                      code: WINTER10
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: MaterialItems getMaterialIncentiveOfferItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )
+  /rest/affiliate/getMaterialIncentiveVoucherItems:
+    post:
+      tags:
+      - Materials
+      operationId: getMaterialIncentiveVoucherItems
+      summary: Geeft een lijst terug van promotiemateriaal dat geassocieerd is met de beschikbare campagnes.
+      description: 'Source method signature: `MaterialItems getMaterialIncentiveVoucherItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMaterialIncentiveVoucherItemsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  materialOutputType: html
+                  options:
+                    limit: 10
+                    offset: 0
+                    sort: ID
+                    sortDirection: descending
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMaterialIncentiveVoucherItemsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 28142
+                      campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      name: Example
+                      creationDate: '2026-10-01T10:15:00+02:00'
+                      modificationDate: '2026-10-01T10:15:00+02:00'
+                      materialBannerDimension:
+                        ID: 96729
+                        width: 300
+                        height: 250
+                        isCommon: true
+                        isMobile: true
+                      referenceSupported: true
+                      description: Example description.
+                      conditions: example
+                      validFromDate: '2026-10-01'
+                      validToDate: '2026-12-31'
+                      discountFixed: 1.5
+                      discountVariable: 7.5
+                      voucherCode: WINTER10
+                      code: WINTER10
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: MaterialItems getMaterialIncentiveVoucherItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )
+  /rest/affiliate/getMaterialTextItems:
+    post:
+      tags:
+      - Materials
+      operationId: getMaterialTextItems
+      summary: Geeft een lijst terug van promotiemateriaal dat geassocieerd is met de beschikbare campagnes.
+      description: 'Source method signature: `MaterialItems getMaterialTextItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMaterialTextItemsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  materialOutputType: html
+                  options:
+                    limit: 10
+                    offset: 0
+                    sort: ID
+                    sortDirection: descending
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMaterialTextItemsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - ID: 28142
+                      campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      name: Example
+                      creationDate: '2026-10-01T10:15:00+02:00'
+                      modificationDate: '2026-10-01T10:15:00+02:00'
+                      materialBannerDimension:
+                        ID: 96729
+                        width: 300
+                        height: 250
+                        isCommon: true
+                        isMobile: true
+                      referenceSupported: true
+                      description: Example description.
+                      conditions: example
+                      validFromDate: '2026-10-01'
+                      validToDate: '2026-12-31'
+                      discountFixed: 1.5
+                      discountVariable: 7.5
+                      voucherCode: WINTER10
+                      code: WINTER10
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: MaterialItems getMaterialTextItems ( nonNegativeInteger $affiliateSiteID, MaterialOutputType $materialOutputType, MaterialItemFilter $options )
+  /rest/affiliate/getPayments:
+    post:
+      tags:
+      - Payments
+      operationId: getPayments
+      summary: Geeft een lijst terug van betalingen behorende bij uw account.
+      description: 'Source method signature: `Payments getPayments ( PaymentFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetPaymentsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  options:
+                    billDateFrom: '2026-10-01'
+                    billDateTo: '2026-10-31'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPaymentsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - invoiceNumber: example
+                      currency: EUR
+                      subTotal: 12.5
+                      VAT: 1.5
+                      endTotal: 12.5
+                      billDate: '2026-10-01'
+                      payDate: '2026-10-01'
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: Payments getPayments ( PaymentFilter $options )
+  /rest/affiliate/getReportAffiliateSite:
+    post:
+      tags:
+      - Reports
+      operationId: getReportAffiliateSite
+      summary: Geeft performancestatistieken terug voor de gegeven affiliatesite.
+      description: 'Source method signature: `ReportData getReportAffiliateSite ( nonNegativeInteger $affiliateSiteID, ReportAffiliateSiteFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetReportAffiliateSiteRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  options:
+                    dateFrom: '2026-10-01'
+                    dateTo: '2026-10-31'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetReportAffiliateSiteResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                      overallImpressionCount: 14
+                      uniqueImpressionCount: 164
+                      impressionCommission: 12.5
+                      overallClickCount: 170
+                      uniqueClickCount: 203
+                      clickCommission: 0.25
+                      leadCount: 230
+                      leadCommission: 12.5
+                      saleCount: 55
+                      saleCommission: 12.5
+                      fixedCommission: 12.5
+                      CTR: 1.5
+                      CLR: 1.5
+                      CSR: 1.5
+                      eCPM: 1.5
+                      EPC: 0.25
+                      totalCommission: 12.5
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: ReportData getReportAffiliateSite ( nonNegativeInteger $affiliateSiteID, ReportAffiliateSiteFilter $options )
+  /rest/affiliate/getReportAffiliateSites:
+    post:
+      tags:
+      - Reports
+      operationId: getReportAffiliateSites
+      summary: Get performance statistics for the specified affiliate sites. This summary was added from the method name and supplied response example because the method source has no prose description.
+      description: 'Source method signature: `ReportAffiliateSites getReportAffiliateSites ( string $affiliateSiteIDs, ReportAffiliateSitesFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetReportAffiliateSitesRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteIDs: example
+                  options:
+                    dateFrom: '2026-10-01T00:00:00+02:00'
+                    dateTo: '2026-10-31T23:59:59+01:00'
+                    groupBy: -1
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetReportAffiliateSitesResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - affiliateSiteIDs: example
+                      overallImpressionCount: 52
+                      uniqueImpressionCount: 139
+                      impressionCommission: 12.5
+                      overallClickCount: 10
+                      uniqueClickCount: 203
+                      clickCommission: 0.25
+                      leadCount: 198
+                      leadCommission: 12.5
+                      saleCount: 123
+                      saleCommission: 12.5
+                      fixedCommission: 12.5
+                      CTR: 1.5
+                      CLR: 1.5
+                      CSR: 1.5
+                      eCPM: 1.5
+                      EPC: 0.25
+                      totalCommission: 12.5
+                      date: 9
+                      dateRange: example
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: ReportAffiliateSites getReportAffiliateSites ( string $affiliateSiteIDs, ReportAffiliateSitesFilter $options )
+  /rest/affiliate/getReportCampaign:
+    post:
+      tags:
+      - Reports
+      operationId: getReportCampaign
+      summary: Geeft performancestatistieken per campagne terug voor de gegeven affiliatesite.
+      description: 'Source method signature: `ReportCampaign getReportCampaign ( nonNegativeInteger $affiliateSiteID, ReportCampaignFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetReportCampaignRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  options:
+                    campaignID: 47920
+                    dateFrom: '2026-10-01'
+                    dateTo: '2026-10-31'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetReportCampaignResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      reportData:
+                        overallImpressionCount: 14
+                        uniqueImpressionCount: 164
+                        impressionCommission: 12.5
+                        overallClickCount: 170
+                        uniqueClickCount: 203
+                        clickCommission: 0.25
+                        leadCount: 230
+                        leadCommission: 12.5
+                        saleCount: 55
+                        saleCommission: 12.5
+                        fixedCommission: 12.5
+                        CTR: 1.5
+                        CLR: 1.5
+                        CSR: 1.5
+                        eCPM: 1.5
+                        EPC: 0.25
+                        totalCommission: 12.5
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: ReportCampaign getReportCampaign ( nonNegativeInteger $affiliateSiteID, ReportCampaignFilter $options )
+  /rest/affiliate/getReportReference:
+    post:
+      tags:
+      - Reports
+      operationId: getReportReference
+      summary: Geeft performancestatistieken per referentie terug voor de gegeven affiliatesite.
+      description: 'Source method signature: `ReportReference getReportReference ( nonNegativeInteger $affiliateSiteID, ReportReferenceFilter $options )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetReportReferenceRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  affiliateSiteID: 83809
+                  options:
+                    reference: order-10023
+                    campaignID: 47920
+                    dateFrom: '2026-10-01'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetReportReferenceResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - reference: order-10023
+                      campaign:
+                        ID: 47920
+                        name: Example Shop NL
+                        URL: https://www.example.com/
+                        info:
+                          category:
+                            ID: 52736
+                            name: Fashion
+                            categories: []
+                          subCategories: []
+                          campaignDescription: Example description.
+                          shopDescription: Example description.
+                          targetGroup: Example description.
+                          characteristics: Example description.
+                          imageURL: https://static.example.com/banner-300x250.png
+                          trackingURL: https://tc.tradetracker.net/?c=12345&m=0&a=67890&r=&u=
+                          commission:
+                            impressionCommission: 12.5
+                            clickCommission: 0.25
+                            fixedCommission: 12.5
+                            leadCommission: 12.5
+                            saleCommissionFixed: 12.5
+                            saleCommissionVariable: 7.5
+                            iLeadCommission: 12.5
+                            iSaleCommissionFixed: 12.5
+                            iSaleCommissionVariable: 7.5
+                          assignmentStatus: accepted
+                          startDate: '2026-10-01'
+                          stopDate: '2026-12-31'
+                          timeZone: Europe/Amsterdam
+                          clickToConversion: P30D
+                          policySearchEngineMarketingStatus: allowed
+                          policyEmailMarketingStatus: allowed
+                          policyCashbackStatus: allowed
+                          policyDiscountCodeStatus: allowed
+                          deeplinkingSupported: true
+                          referencesSupported: true
+                          leadMaximumAssessmentInterval: P30D
+                          leadAverageAssessmentInterval: P30D
+                          saleMaximumAssessmentInterval: P30D
+                          saleAverageAssessmentInterval: P30D
+                          attributionModelLead: classic
+                          attributionModelSales: classic
+                        logoURL: https://static.example.com/banner-300x250.png
+                      reportData:
+                        overallImpressionCount: 14
+                        uniqueImpressionCount: 164
+                        impressionCommission: 12.5
+                        overallClickCount: 170
+                        uniqueClickCount: 203
+                        clickCommission: 0.25
+                        leadCount: 230
+                        leadCommission: 12.5
+                        saleCount: 55
+                        saleCommission: 12.5
+                        fixedCommission: 12.5
+                        CTR: 1.5
+                        CLR: 1.5
+                        CSR: 1.5
+                        eCPM: 1.5
+                        EPC: 0.25
+                        totalCommission: 12.5
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: ReportReference getReportReference ( nonNegativeInteger $affiliateSiteID, ReportReferenceFilter $options )
+  /rest/affiliate/getTouchpoints:
+    post:
+      tags:
+      - Transactions
+      operationId: getTouchpoints
+      summary: Get touchpoints for a conversion transaction. This summary was added from the method name and supplied response example because the method source has no prose description.
+      description: 'Source method signature: `Touchpoints getTouchpoints ( nonNegativeInteger $conversionTransactionID )`.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetTouchpointsRequest'
+            examples:
+              sourceExample:
+                summary: Example from supplied script.
+                value:
+                  conversionTransactionID: 71655
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTouchpointsResponse'
+              examples:
+                sourceExample:
+                  summary: Example from supplied script.
+                  value:
+                    data:
+                    - affiliateSiteID: 83809
+                      siteType: website
+                      registrationDate: '2026-10-01T10:15:00+02:00'
+                      numImpressions: 86
+                      numClicks: 237
+                      isAttributed: true
+                      commission: 12.5
+                      position: example
+                      reference: order-10023
+                    success: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-source-method-signature: Touchpoints getTouchpoints ( nonNegativeInteger $conversionTransactionID )
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT returned by the authenticate operation. JWTs last 24 hours according to the method source.
+  responses:
+    AuthenticationFailed:
+      description: Authentication request could not be accepted.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            invalidCredentials:
+              summary: Wrong key, unknown email or incorrect password.
+              value:
+                errors:
+                - Failed to authenticate.
+            identityLinked:
+              summary: Username/password cannot be used after the account is connected to a TradeTracker ID.
+              value:
+                errors:
+                - This account signs in with a TradeTracker ID. Authenticate with tradetracker_id and api_key from the Web Services page (REST) instead of a username and password.
+            mfaRequired:
+              summary: Two-step verification must be configured first.
+              value:
+                errors:
+                - Two-step verification is required for your TradeTracker ID. Set it up on the TradeTracker website, then sign in again.
+    Unauthorized:
+      description: JWT invalid, expired, or no longer permitted. Authenticate again.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            expiredOrInvalidJwt:
+              summary: Expired JWT, regenerated API key or ended session.
+              value:
+                errors:
+                - 401 Unauthorized
+            identityLinked:
+              summary: The account was connected to a TradeTracker ID after the JWT was issued.
+              value:
+                errors:
+                - This account is now connected to a TradeTracker ID. Please sign in again with your TradeTracker ID email.
+                error_code: login_identity_linked
+            mfaSetupRequired:
+              summary: Two-step verification is now required.
+              value:
+                errors:
+                - Two-step verification is required for your TradeTracker ID. Set it up on the TradeTracker website, then sign in again.
+                error_code: login_identity_mfa_setup_required
+  schemas:
+    AffiliateSite:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        name:
+          type: string
+        URL:
+          type: string
+        info:
+          $ref: '#/components/schemas/AffiliateSiteInfo'
+        logoURL:
+          type: string
+    AffiliateSiteCategories:
+      type: array
+      description: List of AffiliateSiteCategory objects.
+      items:
+        $ref: '#/components/schemas/AffiliateSiteCategory'
+    AffiliateSiteCategory:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        name:
+          type: string
+    AffiliateSiteFilter:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        query:
+          type: string
+        affiliateSiteCategoryID:
+          type: integer
+          minimum: 0
+        affiliateSiteTypeID:
+          type: integer
+          minimum: 0
+        affiliateSiteStatus:
+          $ref: '#/components/schemas/AffiliateSiteStatus'
+        limit:
+          type: integer
+          minimum: 0
+        offset:
+          type: integer
+          minimum: 0
+        sort:
+          $ref: '#/components/schemas/AffiliateSiteSort'
+        sortDirection:
+          $ref: '#/components/schemas/SortDirection'
+        excludeInfo:
+          type: boolean
+    AffiliateSiteInfo:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/AffiliateSiteType'
+        category:
+          $ref: '#/components/schemas/AffiliateSiteCategory'
+        description:
+          type: string
+        creationDate:
+          type: string
+          format: date
+        status:
+          $ref: '#/components/schemas/AffiliateSiteStatus'
+        hidden:
+          type: boolean
+    AffiliateSitePaidOut:
+      type: array
+      description: List of AffiliateSitePaidOutElement objects.
+      items:
+        $ref: '#/components/schemas/AffiliateSitePaidOutElement'
+    AffiliateSitePaidOutElement:
+      type: object
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        paidOut:
+          type: boolean
+    AffiliateSites:
+      type: array
+      description: List of AffiliateSite objects.
+      items:
+        $ref: '#/components/schemas/AffiliateSite'
+    AffiliateSitesPaidOut:
+      type: object
+      properties:
+        affiliateSites:
+          $ref: '#/components/schemas/AffiliateSitePaidOut'
+    AffiliateSiteSort:
+      type: string
+      enum:
+      - ID
+      - name
+    AffiliateSiteStatus:
+      type: string
+      enum:
+      - pending
+      - accepted
+      - rejected
+      - onhold
+      - signedout
+    AffiliateSiteType:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        name:
+          type: string
+    AffiliateSiteTypes:
+      type: array
+      description: List of AffiliateSiteType objects.
+      items:
+        $ref: '#/components/schemas/AffiliateSiteType'
+    AttributedAffiliateSite:
+      type: object
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        commission:
+          type: number
+          format: double
+        relativeOrderAmount:
+          type: number
+          format: double
+        position:
+          type: string
+        IP:
+          type: string
+        transactionType:
+          $ref: '#/components/schemas/TransactionType'
+        transactionStatus:
+          $ref: '#/components/schemas/TransactionStatus'
+        reference:
+          type: string
+        registrationDate:
+          type: string
+          format: date-time
+        paidOut:
+          type: boolean
+    Attribution:
+      type: array
+      description: List of AttributedAffiliateSite objects.
+      items:
+        $ref: '#/components/schemas/AttributedAffiliateSite'
+    Attributions:
+      type: object
+      properties:
+        affiliateSites:
+          $ref: '#/components/schemas/Attribution'
+    Campaign:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        name:
+          type: string
+        URL:
+          type: string
+        info:
+          $ref: '#/components/schemas/CampaignInfo'
+        logoURL:
+          type: string
+    CampaignAffiliatePolicyStatus:
+      type: string
+      enum:
+      - allowed
+      - limited
+      - disallowed
+    CampaignAssignmentStatus:
+      type: string
+      enum:
+      - notsignedup
+      - pending
+      - accepted
+      - rejected
+      - onhold
+      - signedout
+    CampaignAttributionModel:
+      type: string
+      description: The type source does not specify serialised values; the supplied scripts show 'classic'.
+      example: classic
+    CampaignCategories:
+      type: array
+      description: List of CampaignCategory objects.
+      items:
+        $ref: '#/components/schemas/CampaignCategory'
+    CampaignCategory:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        name:
+          type: string
+        categories:
+          $ref: '#/components/schemas/CampaignCategories'
+    CampaignCommission:
+      type: object
+      properties:
+        impressionCommission:
+          type: number
+          format: double
+        clickCommission:
+          type: number
+          format: double
+        fixedCommission:
+          type: number
+          format: double
+        leadCommission:
+          type: number
+          format: double
+        saleCommissionFixed:
+          type: number
+          format: double
+        saleCommissionVariable:
+          type: number
+          format: double
+        iLeadCommission:
+          type: number
+          format: double
+        iSaleCommissionFixed:
+          type: number
+          format: double
+        iSaleCommissionVariable:
+          type: number
+          format: double
+    CampaignCommissionExtended:
+      type: object
+      properties:
+        impressionCommission:
+          type: number
+          format: double
+        clickCommission:
+          type: number
+          format: double
+        fixedCommission:
+          type: number
+          format: double
+        products:
+          $ref: '#/components/schemas/CampaignCommissionProducts'
+    CampaignCommissionProduct:
+      type: object
+      properties:
+        campaignProduct:
+          $ref: '#/components/schemas/CampaignProduct'
+        leadCommission:
+          type: number
+          format: double
+        saleCommissionFixed:
+          type: number
+          format: double
+        saleCommissionVariable:
+          type: number
+          format: double
+        iLeadCommission:
+          type: number
+          format: double
+        iSaleCommissionFixed:
+          type: number
+          format: double
+        iSaleCommissionVariable:
+          type: number
+          format: double
+        guaranteedCommissionLead:
+          type: number
+          format: double
+        guaranteedCommissionSalesVariable:
+          type: number
+          format: double
+        guaranteedCommissionSalesFixed:
+          type: number
+          format: double
+    CampaignCommissionProducts:
+      type: array
+      description: List of CampaignCommissionProduct objects.
+      items:
+        $ref: '#/components/schemas/CampaignCommissionProduct'
+    CampaignFilter:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        query:
+          type: string
+        campaignCategoryID:
+          type: integer
+          minimum: 0
+        assignmentStatus:
+          $ref: '#/components/schemas/CampaignAssignmentStatus'
+        policySearchEngineMarketingStatus:
+          $ref: '#/components/schemas/CampaignAffiliatePolicyStatus'
+        policyEmailMarketingStatus:
+          $ref: '#/components/schemas/CampaignAffiliatePolicyStatus'
+        policyCashbackStatus:
+          $ref: '#/components/schemas/CampaignAffiliatePolicyStatus'
+        policyDiscountCodeStatus:
+          $ref: '#/components/schemas/CampaignAffiliatePolicyStatus'
+        limit:
+          type: integer
+          minimum: 0
+        offset:
+          type: integer
+          minimum: 0
+        sort:
+          $ref: '#/components/schemas/CampaignSort'
+        sortDirection:
+          $ref: '#/components/schemas/SortDirection'
+        excludeInfo:
+          type: boolean
+    CampaignInfo:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/CampaignCategory'
+        subCategories:
+          $ref: '#/components/schemas/CampaignSubCategories'
+        campaignDescription:
+          type: string
+        shopDescription:
+          type: string
+        targetGroup:
+          type: string
+        characteristics:
+          type: string
+        imageURL:
+          type: string
+        trackingURL:
+          type: string
+        commission:
+          $ref: '#/components/schemas/CampaignCommission'
+        assignmentStatus:
+          $ref: '#/components/schemas/CampaignAssignmentStatus'
+        startDate:
+          type: string
+          format: date
+        stopDate:
+          type: string
+          format: date
+        timeZone:
+          type: string
+        clickToConversion:
+          type: string
+          format: duration
+        policySearchEngineMarketingStatus:
+          $ref: '#/components/schemas/CampaignAffiliatePolicyStatus'
+        policyEmailMarketingStatus:
+          $ref: '#/components/schemas/CampaignAffiliatePolicyStatus'
+        policyCashbackStatus:
+          $ref: '#/components/schemas/CampaignAffiliatePolicyStatus'
+        policyDiscountCodeStatus:
+          $ref: '#/components/schemas/CampaignAffiliatePolicyStatus'
+        deeplinkingSupported:
+          type: boolean
+        referencesSupported:
+          type: boolean
+        leadMaximumAssessmentInterval:
+          type: string
+          format: duration
+        leadAverageAssessmentInterval:
+          type: string
+          format: duration
+        saleMaximumAssessmentInterval:
+          type: string
+          format: duration
+        saleAverageAssessmentInterval:
+          type: string
+          format: duration
+        attributionModelLead:
+          $ref: '#/components/schemas/CampaignAttributionModel'
+        attributionModelSales:
+          $ref: '#/components/schemas/CampaignAttributionModel'
+    CampaignNewsItem:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        campaign:
+          $ref: '#/components/schemas/Campaign'
+        campaignNewsType:
+          $ref: '#/components/schemas/CampaignNewsType'
+        title:
+          type: string
+        content:
+          type: string
+        publishDate:
+          type: string
+          format: date
+        expirationDate:
+          type: string
+          format: date
+    CampaignNewsItemFilter:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        query:
+          type: string
+        campaignCategoryID:
+          type: integer
+          minimum: 0
+        campaignNewsType:
+          $ref: '#/components/schemas/CampaignNewsType'
+        publishDateFrom:
+          type: string
+          format: date
+        publishDateTo:
+          type: string
+          format: date
+        limit:
+          type: integer
+          minimum: 0
+        offset:
+          type: integer
+          minimum: 0
+    CampaignNewsItems:
+      type: array
+      description: List of CampaignNewsItem objects.
+      items:
+        $ref: '#/components/schemas/CampaignNewsItem'
+    CampaignNewsType:
+      type: string
+      enum:
+      - campaign_start
+      - campaign_stop
+      - campaign_update_general
+      - campaign_update_vouchercode
+      - campaign_update_consumer
+      - campaign_update_commission
+      - campaign_update_incentive
+      - campaign_update_material
+      - campaign_update_feed
+      - campaign_update_urgent
+      - campaign_update_attribution
+    CampaignProduct:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        name:
+          type: string
+    Campaigns:
+      type: array
+      description: List of Campaign objects.
+      items:
+        $ref: '#/components/schemas/Campaign'
+    CampaignSort:
+      type: string
+      enum:
+      - ID
+      - name
+      - startDate
+      - stopDate
+    CampaignSubCategories:
+      type: array
+      description: List of CampaignSubCategory objects.
+      items:
+        $ref: '#/components/schemas/CampaignSubCategory'
+    CampaignSubCategory:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        name:
+          type: string
+    ClickTransaction:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        campaign:
+          $ref: '#/components/schemas/Campaign'
+        reference:
+          type: string
+        transactionType:
+          $ref: '#/components/schemas/TransactionType'
+        transactionStatus:
+          $ref: '#/components/schemas/TransactionStatus'
+        currency:
+          type: string
+        commission:
+          type: number
+          format: double
+        registrationDate:
+          type: string
+          format: date-time
+        refererURL:
+          type: string
+        paidOut:
+          type: boolean
+    ClickTransactionFilter:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        transactionStatus:
+          $ref: '#/components/schemas/TransactionStatus'
+        registrationDateFrom:
+          type: string
+          format: date-time
+        registrationDateTo:
+          type: string
+          format: date-time
+        reference:
+          type: string
+        limit:
+          type: integer
+          minimum: 0
+        offset:
+          type: integer
+          minimum: 0
+        sort:
+          $ref: '#/components/schemas/TransactionClicksSort'
+        sortDirection:
+          $ref: '#/components/schemas/SortDirection'
+    ClickTransactions:
+      type: array
+      description: List of ClickTransaction objects.
+      items:
+        $ref: '#/components/schemas/ClickTransaction'
+    ConversionTransaction:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        campaign:
+          $ref: '#/components/schemas/Campaign'
+        affiliateSite:
+          $ref: '#/components/schemas/AffiliateSite'
+        campaignProduct:
+          $ref: '#/components/schemas/CampaignProduct'
+        reference:
+          type: string
+        transactionType:
+          $ref: '#/components/schemas/TransactionType'
+        transactionStatus:
+          $ref: '#/components/schemas/TransactionStatus'
+        numTouchPointsTotal:
+          type: integer
+        numTouchPointsAttributed:
+          type: integer
+        attributableCommission:
+          type: number
+          format: double
+        description:
+          type: string
+        currency:
+          type: string
+        commission:
+          type: number
+          format: double
+        orderAmount:
+          type: number
+          format: double
+        IP:
+          type: string
+        registrationDate:
+          type: string
+          format: date-time
+        assessmentDate:
+          type: string
+          format: date-time
+        clickToConversion:
+          type: string
+          format: duration
+        originatingClickDate:
+          type: string
+          format: date-time
+        rejectionReason:
+          $ref: '#/components/schemas/TransactionRejectionReason'
+        paidOut:
+          type: boolean
+        affiliateSitesPaidOut:
+          $ref: '#/components/schemas/AffiliateSitesPaidOut'
+        countryCode:
+          type: string
+        attributionModel:
+          $ref: '#/components/schemas/CampaignAttributionModel'
+    ConversionTransactionFilter:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        transactionType:
+          $ref: '#/components/schemas/TransactionType'
+        transactionStatus:
+          $ref: '#/components/schemas/TransactionStatus'
+        registrationDateFrom:
+          type: string
+          format: date-time
+        registrationDateTo:
+          type: string
+          format: date-time
+        assessmentDateFrom:
+          type: string
+          format: date-time
+        assessmentDateTo:
+          type: string
+          format: date-time
+        reference:
+          type: string
+        limit:
+          type: integer
+          minimum: 0
+        offset:
+          type: integer
+          minimum: 0
+        sort:
+          $ref: '#/components/schemas/TransactionConversionSort'
+        sortDirection:
+          $ref: '#/components/schemas/SortDirection'
+    ConversionTransactions:
+      type: array
+      description: List of ConversionTransaction objects.
+      items:
+        $ref: '#/components/schemas/ConversionTransaction'
+    Feed:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        campaign:
+          $ref: '#/components/schemas/Campaign'
+        name:
+          type: string
+        URL:
+          type: string
+        updateDate:
+          type: string
+          format: date-time
+        updateInterval:
+          type: string
+          format: duration
+        productCount:
+          type: integer
+          minimum: 0
+        assignmentStatus:
+          $ref: '#/components/schemas/CampaignAssignmentStatus'
+    FeedCategories:
+      type: array
+      description: List of FeedCategory objects.
+      items:
+        $ref: '#/components/schemas/FeedCategory'
+    FeedCategory:
+      type: object
+      properties:
+        name:
+          type: string
+        productCount:
+          type: integer
+          minimum: 0
+    FeedFilter:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        campaignID:
+          type: integer
+          minimum: 0
+        campaignCategoryID:
+          type: integer
+          minimum: 0
+        assignmentStatus:
+          $ref: '#/components/schemas/CampaignAssignmentStatus'
+    FeedProduct:
+      type: object
+      properties:
+        identifier:
+          type: string
+        name:
+          type: string
+        productCategoryName:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: double
+        productURL:
+          type: string
+        imageURL:
+          type: string
+        additional:
+          $ref: '#/components/schemas/FeedProductAdditional'
+    FeedProductAdditional:
+      type: array
+      description: List of FeedProductAdditionalElement objects.
+      items:
+        $ref: '#/components/schemas/FeedProductAdditionalElement'
+    FeedProductAdditionalElement:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    FeedProductFilter:
+      type: object
+      properties:
+        feedID:
+          type: integer
+          minimum: 0
+        feedCategoryName:
+          type: string
+        campaignID:
+          type: integer
+          minimum: 0
+        campaignCategoryID:
+          type: integer
+          minimum: 0
+        query:
+          type: string
+        priceFrom:
+          type: number
+          format: double
+        priceTo:
+          type: number
+          format: double
+        limit:
+          type: integer
+          minimum: 0
+        offset:
+          type: integer
+          minimum: 0
+    FeedProducts:
+      type: array
+      description: List of FeedProduct objects.
+      items:
+        $ref: '#/components/schemas/FeedProduct'
+    Feeds:
+      type: array
+      description: List of Feed objects.
+      items:
+        $ref: '#/components/schemas/Feed'
+    Locale:
+      type: string
+      enum:
+      - nl_BE
+      - fr_BE
+      - de_DE
+      - en_GB
+      - nl_NL
+    MaterialBannerDimension:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        width:
+          type: integer
+          minimum: 0
+        height:
+          type: integer
+          minimum: 0
+        isCommon:
+          type: boolean
+        isMobile:
+          type: boolean
+    MaterialBannerDimensions:
+      type: array
+      description: List of MaterialBannerDimension objects.
+      items:
+        $ref: '#/components/schemas/MaterialBannerDimension'
+    MaterialItem:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        campaign:
+          $ref: '#/components/schemas/Campaign'
+        name:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        modificationDate:
+          type: string
+          format: date-time
+        materialBannerDimension:
+          $ref: '#/components/schemas/MaterialBannerDimension'
+        referenceSupported:
+          type: boolean
+        description:
+          type: string
+        conditions:
+          type: string
+        validFromDate:
+          type: string
+          format: date
+        validToDate:
+          type: string
+          format: date
+        discountFixed:
+          type: number
+          format: double
+        discountVariable:
+          type: number
+          format: double
+        voucherCode:
+          type: string
+        code:
+          type: string
+    MaterialItemFilter:
+      type: object
+      properties:
+        ID:
+          type: integer
+          minimum: 0
+        query:
+          type: string
+        campaignID:
+          type: integer
+          minimum: 0
+        campaignCategoryID:
+          type: integer
+          minimum: 0
+        includeUnsubscribedCampaigns:
+          type: boolean
+        materialBannerDimensionID:
+          type: integer
+          minimum: 0
+        reference:
+          type: string
+        limit:
+          type: integer
+          minimum: 0
+        offset:
+          type: integer
+          minimum: 0
+        sort:
+          $ref: '#/components/schemas/MaterialItemSort'
+        sortDirection:
+          $ref: '#/components/schemas/SortDirection'
+    MaterialItems:
+      type: array
+      description: List of MaterialItem objects.
+      items:
+        $ref: '#/components/schemas/MaterialItem'
+    MaterialItemSort:
+      type: string
+      enum:
+      - ID
+      - creationDate
+      - modificationDate
+      - campaignName
+      - elementSize
+      - linkText
+    MaterialOutputType:
+      type: string
+      enum:
+      - html
+      - javascript
+      - iframe
+      - popup
+      - popunder
+      - rss
+    Payment:
+      type: object
+      properties:
+        invoiceNumber:
+          type: string
+        currency:
+          type: string
+        subTotal:
+          type: number
+          format: double
+        VAT:
+          type: number
+          format: double
+        endTotal:
+          type: number
+          format: double
+        billDate:
+          type: string
+          format: date
+        payDate:
+          type: string
+          format: date
+    PaymentFilter:
+      type: object
+      properties:
+        billDateFrom:
+          type: string
+          format: date
+        billDateTo:
+          type: string
+          format: date
+    Payments:
+      type: array
+      description: List of Payment objects.
+      items:
+        $ref: '#/components/schemas/Payment'
+    ReportAffiliateSiteFilter:
+      type: object
+      properties:
+        dateFrom:
+          type: string
+          format: date
+        dateTo:
+          type: string
+          format: date
+    ReportAffiliateSites:
+      type: array
+      description: List of ReportDataGroup objects.
+      items:
+        $ref: '#/components/schemas/ReportDataGroup'
+    ReportAffiliateSitesFilter:
+      type: object
+      properties:
+        dateFrom:
+          type: string
+          format: date-time
+        dateTo:
+          type: string
+          format: date-time
+        groupBy:
+          type: integer
+          description: The type source calls this nonNegativeInteger; the supplied request example uses -1, which is accepted here as an observed sentinel value.
+          x-source-type-conflict: Declared nonNegativeInteger; script example is -1.
+    ReportCampaign:
+      type: array
+      description: List of ReportCampaignElement objects.
+      items:
+        $ref: '#/components/schemas/ReportCampaignElement'
+    ReportCampaignElement:
+      type: object
+      properties:
+        campaign:
+          $ref: '#/components/schemas/Campaign'
+        reportData:
+          $ref: '#/components/schemas/ReportData'
+    ReportCampaignFilter:
+      type: object
+      properties:
+        campaignID:
+          type: integer
+          minimum: 0
+        dateFrom:
+          type: string
+          format: date
+        dateTo:
+          type: string
+          format: date
+    ReportData:
+      type: object
+      properties:
+        overallImpressionCount:
+          type: integer
+        uniqueImpressionCount:
+          type: integer
+        impressionCommission:
+          type: number
+          format: double
+        overallClickCount:
+          type: integer
+        uniqueClickCount:
+          type: integer
+        clickCommission:
+          type: number
+          format: double
+        leadCount:
+          type: integer
+        leadCommission:
+          type: number
+          format: double
+        saleCount:
+          type: integer
+        saleCommission:
+          type: number
+          format: double
+        fixedCommission:
+          type: number
+          format: double
+        CTR:
+          type: number
+          format: double
+        CLR:
+          type: number
+          format: double
+        CSR:
+          type: number
+          format: double
+        eCPM:
+          type: number
+          format: double
+        EPC:
+          type: number
+          format: double
+        totalCommission:
+          type: number
+          format: double
+    ReportDataGroup:
+      type: object
+      properties:
+        affiliateSiteIDs:
+          type: string
+        overallImpressionCount:
+          type: integer
+        uniqueImpressionCount:
+          type: integer
+        impressionCommission:
+          type: number
+          format: double
+        overallClickCount:
+          type: integer
+        uniqueClickCount:
+          type: integer
+        clickCommission:
+          type: number
+          format: double
+        leadCount:
+          type: integer
+        leadCommission:
+          type: number
+          format: double
+        saleCount:
+          type: integer
+        saleCommission:
+          type: number
+          format: double
+        fixedCommission:
+          type: number
+          format: double
+        CTR:
+          type: number
+          format: double
+        CLR:
+          type: number
+          format: double
+        CSR:
+          type: number
+          format: double
+        eCPM:
+          type: number
+          format: double
+        EPC:
+          type: number
+          format: double
+        totalCommission:
+          type: number
+          format: double
+        date:
+          type: integer
+        dateRange:
+          type: string
+    ReportReference:
+      type: array
+      description: List of ReportReferenceElement objects.
+      items:
+        $ref: '#/components/schemas/ReportReferenceElement'
+    ReportReferenceElement:
+      type: object
+      properties:
+        reference:
+          type: string
+        campaign:
+          $ref: '#/components/schemas/Campaign'
+        reportData:
+          $ref: '#/components/schemas/ReportData'
+    ReportReferenceFilter:
+      type: object
+      properties:
+        reference:
+          type: string
+        campaignID:
+          type: integer
+          minimum: 0
+        dateFrom:
+          type: string
+          format: date
+        dateTo:
+          type: string
+          format: date
+    SortDirection:
+      type: string
+      enum:
+      - ascending
+      - descending
+    Touchpoint:
+      type: object
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        siteType:
+          type: string
+        registrationDate:
+          type: string
+          format: date-time
+        numImpressions:
+          type: integer
+          minimum: 0
+        numClicks:
+          type: integer
+          minimum: 0
+        isAttributed:
+          type: boolean
+        commission:
+          type: number
+          format: double
+        position:
+          type: string
+        reference:
+          type: string
+    Touchpoints:
+      type: array
+      description: List of Touchpoint objects.
+      items:
+        $ref: '#/components/schemas/Touchpoint'
+    TransactionClicksSort:
+      type: string
+      enum:
+      - ID
+      - registrationDate
+    TransactionConversionSort:
+      type: string
+      enum:
+      - ID
+      - assessmentDate
+      - registrationDate
+    TransactionRejectionReason:
+      type: string
+      enum:
+      - returned_goods
+      - out_of_stock
+      - payment_not_received
+      - invalid_transaction
+      - order_canceled
+      - duplicate_order
+      - test_transaction
+      - attributed_to_other_channel
+      - violates_campaign_terms
+      - invalid_customer_details
+      - customer_unreachable
+    TransactionStatus:
+      type: string
+      enum:
+      - pending
+      - accepted
+      - rejected
+    TransactionType:
+      type: string
+      enum:
+      - click
+      - lead
+      - sale
+    AuthenticationData:
+      type: object
+      required:
+      - jwt
+      properties:
+        jwt:
+          type: string
+          format: jwt
+    ErrorResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+        error_code:
+          type: string
+    AuthenticateRequest:
+      type: object
+      description: Authenticate with either `tradetracker_id` and `api_key`, or `username` and `password`. Username/password is only for accounts not connected to a TradeTracker ID.
+      additionalProperties: false
+      properties:
+        tradetracker_id:
+          type: string
+          format: email
+          description: TradeTracker ID email address.
+        api_key:
+          type: string
+          format: password
+          description: REST API key for the account.
+        username:
+          type: string
+          description: Username for an account not connected to a TradeTracker ID.
+        password:
+          type: string
+          format: password
+        sandbox:
+          type: boolean
+          default: false
+          description: Enable sandbox mode.
+        locale:
+          $ref: '#/components/schemas/Locale'
+        demo:
+          type: boolean
+          default: false
+          description: Return demo data instead of live data.
+      oneOf:
+      - required:
+        - tradetracker_id
+        - api_key
+      - required:
+        - username
+        - password
+    AuthenticateResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/AuthenticationData'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for authenticate.
+    GetAffiliateSiteCategoriesRequest:
+      type: object
+      additionalProperties: false
+      properties: {}
+    GetAffiliateSiteCategoriesResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/AffiliateSiteCategories'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getAffiliateSiteCategories.
+    GetAffiliateSitesRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        options:
+          $ref: '#/components/schemas/AffiliateSiteFilter'
+    GetAffiliateSitesResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/AffiliateSites'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getAffiliateSites.
+    GetAffiliateSiteTypesRequest:
+      type: object
+      additionalProperties: false
+      properties: {}
+    GetAffiliateSiteTypesResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/AffiliateSiteTypes'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getAffiliateSiteTypes.
+    GetAttributionsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        conversionTransactionID:
+          type: integer
+          minimum: 0
+      required:
+      - conversionTransactionID
+    GetAttributionsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/Attributions'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getAttributions.
+    GetCampaignCategoriesRequest:
+      type: object
+      additionalProperties: false
+      properties: {}
+    GetCampaignCategoriesResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/CampaignCategories'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getCampaignCategories.
+    GetCampaignCommissionExtendedRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        campaignID:
+          type: integer
+          minimum: 0
+      required:
+      - affiliateSiteID
+      - campaignID
+    GetCampaignCommissionExtendedResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/CampaignCommissionExtended'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getCampaignCommissionExtended.
+    GetCampaignNewsItemsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        options:
+          $ref: '#/components/schemas/CampaignNewsItemFilter'
+    GetCampaignNewsItemsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/CampaignNewsItems'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getCampaignNewsItems.
+    GetCampaignsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        options:
+          $ref: '#/components/schemas/CampaignFilter'
+      required:
+      - affiliateSiteID
+    GetCampaignsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/Campaigns'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getCampaigns.
+    GetClickTransactionsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        options:
+          $ref: '#/components/schemas/ClickTransactionFilter'
+      required:
+      - affiliateSiteID
+    GetClickTransactionsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/ClickTransactions'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getClickTransactions.
+    GetConversionTransactionsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        options:
+          $ref: '#/components/schemas/ConversionTransactionFilter'
+      required:
+      - affiliateSiteID
+    GetConversionTransactionsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/ConversionTransactions'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getConversionTransactions.
+    GetFeedProductCategoriesRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        feedID:
+          type: integer
+          minimum: 0
+      required:
+      - affiliateSiteID
+      - feedID
+    GetFeedProductCategoriesResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/FeedCategories'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getFeedProductCategories.
+    GetFeedProductsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        options:
+          $ref: '#/components/schemas/FeedProductFilter'
+      required:
+      - affiliateSiteID
+    GetFeedProductsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/FeedProducts'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getFeedProducts.
+    GetFeedsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        options:
+          $ref: '#/components/schemas/FeedFilter'
+      required:
+      - affiliateSiteID
+    GetFeedsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/Feeds'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getFeeds.
+    GetMaterialBannerDimensionsRequest:
+      type: object
+      additionalProperties: false
+      properties: {}
+    GetMaterialBannerDimensionsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/MaterialBannerDimensions'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getMaterialBannerDimensions.
+    GetMaterialBannerFlashItemsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        materialOutputType:
+          $ref: '#/components/schemas/MaterialOutputType'
+        options:
+          $ref: '#/components/schemas/MaterialItemFilter'
+      required:
+      - affiliateSiteID
+      - materialOutputType
+    GetMaterialBannerFlashItemsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/MaterialItems'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getMaterialBannerFlashItems.
+    GetMaterialBannerImageItemsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        materialOutputType:
+          $ref: '#/components/schemas/MaterialOutputType'
+        options:
+          $ref: '#/components/schemas/MaterialItemFilter'
+      required:
+      - affiliateSiteID
+      - materialOutputType
+    GetMaterialBannerImageItemsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/MaterialItems'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getMaterialBannerImageItems.
+    GetMaterialHTMLItemsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        materialOutputType:
+          $ref: '#/components/schemas/MaterialOutputType'
+        options:
+          $ref: '#/components/schemas/MaterialItemFilter'
+      required:
+      - affiliateSiteID
+      - materialOutputType
+    GetMaterialHTMLItemsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/MaterialItems'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getMaterialHTMLItems.
+    GetMaterialIncentiveOfferItemsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        materialOutputType:
+          $ref: '#/components/schemas/MaterialOutputType'
+        options:
+          $ref: '#/components/schemas/MaterialItemFilter'
+      required:
+      - affiliateSiteID
+      - materialOutputType
+    GetMaterialIncentiveOfferItemsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/MaterialItems'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getMaterialIncentiveOfferItems.
+    GetMaterialIncentiveVoucherItemsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        materialOutputType:
+          $ref: '#/components/schemas/MaterialOutputType'
+        options:
+          $ref: '#/components/schemas/MaterialItemFilter'
+      required:
+      - affiliateSiteID
+      - materialOutputType
+    GetMaterialIncentiveVoucherItemsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/MaterialItems'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getMaterialIncentiveVoucherItems.
+    GetMaterialTextItemsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        materialOutputType:
+          $ref: '#/components/schemas/MaterialOutputType'
+        options:
+          $ref: '#/components/schemas/MaterialItemFilter'
+      required:
+      - affiliateSiteID
+      - materialOutputType
+    GetMaterialTextItemsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/MaterialItems'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getMaterialTextItems.
+    GetPaymentsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        options:
+          $ref: '#/components/schemas/PaymentFilter'
+    GetPaymentsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/Payments'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getPayments.
+    GetReportAffiliateSiteRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        options:
+          $ref: '#/components/schemas/ReportAffiliateSiteFilter'
+      required:
+      - affiliateSiteID
+    GetReportAffiliateSiteResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/ReportData'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getReportAffiliateSite.
+    GetReportAffiliateSitesRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteIDs:
+          type: string
+        options:
+          $ref: '#/components/schemas/ReportAffiliateSitesFilter'
+      required:
+      - affiliateSiteIDs
+    GetReportAffiliateSitesResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/ReportAffiliateSites'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getReportAffiliateSites.
+    GetReportCampaignRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        options:
+          $ref: '#/components/schemas/ReportCampaignFilter'
+      required:
+      - affiliateSiteID
+    GetReportCampaignResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/ReportCampaign'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getReportCampaign.
+    GetReportReferenceRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        affiliateSiteID:
+          type: integer
+          minimum: 0
+        options:
+          $ref: '#/components/schemas/ReportReferenceFilter'
+      required:
+      - affiliateSiteID
+    GetReportReferenceResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/ReportReference'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getReportReference.
+    GetTouchpointsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        conversionTransactionID:
+          type: integer
+          minimum: 0
+      required:
+      - conversionTransactionID
+    GetTouchpointsResponse:
+      type: object
+      required:
+      - data
+      - success
+      properties:
+        data:
+          $ref: '#/components/schemas/Touchpoints'
+        success:
+          type: boolean
+          const: true
+      description: Success envelope for getTouchpoints.
+x-source-files:
+- TradeTracker-Webservices-Types.txt
+- TradeTracker-Webservices-Methods.txt
+- TradeTracker-Webservices-Example-Scripts.txt
+x-source-notes:
+- All endpoint paths, HTTP methods, headers, JSON request bodies and data/success response envelopes are confirmed by the supplied example scripts.
+- All documented request parameters are represented in the JSON request body. Filter parameters are nested under options as shown in the scripts.
+- Schema property requiredness is omitted where the type source does not explicitly state it.
+- CampaignAttributionModel remains an unconstrained string because the type source does not list its serialised enum values; supplied scripts show classic.
+- ReportAffiliateSitesFilter.groupBy is defined as integer instead of nonNegativeInteger because the supplied request example uses -1.
+- The getClickTransactions request example uses ID for options.sort. The supplied script contains the literal placeholder example, which conflicts with the TransactionClicksSort enum.
