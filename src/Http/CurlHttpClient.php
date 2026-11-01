@@ -47,13 +47,13 @@ final class CurlHttpClient implements HttpClientInterface
         if ($raw === false) {
             $message = curl_error($handle);
             $code = curl_errno($handle);
-            curl_close($handle);
+            //curl_close($handle);
             throw new TransportException(sprintf('cURL transport error %d: %s', $code, $message));
         }
 
         $headerSize = (int) curl_getinfo($handle, CURLINFO_HEADER_SIZE);
         $statusCode = (int) curl_getinfo($handle, CURLINFO_RESPONSE_CODE);
-        curl_close($handle);
+        //curl_close($handle);
 
         return new HttpResponse(
             $statusCode,
